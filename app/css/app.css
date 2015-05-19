@@ -1,10 +1,12 @@
-.pesho {
-	color:red;
+/* FIX FOR BOOTSTRAP CENTER */
+.center-block {
+    float: none;
 }
 
-.pesho:hover {
-	color:blue 
+.btn {
+    outline: none !important;
 }
-.even_row {
-	background: red;
+
+.navbar-left {
+    margin-left: -15px !important;
 }
