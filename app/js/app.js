@@ -1,1 +1,3 @@
-var app = angular.module("SocialNetwork", []);
+var app = angular.module("SocialNetwork", [
+	  "app.controllers"
+	]);
