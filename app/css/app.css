@@ -10,3 +10,26 @@
 .navbar-left {
     margin-left: -15px !important;
 }
+
+.profile-image {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    line-height: 30px;
+}
+
+img.thumbnail {
+    width: 150px;
+    height: 150px;
+}
+
+img.cover-thumbnail {
+    width: 800px;
+    height: 100px;
+}
+
+

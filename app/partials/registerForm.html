@@ -1,29 +1,41 @@
-<form ng-controller="UsersController" method="POST">
+<form ng-controller="AuthenticationController" method="POST">
     <div class="form-group">
         <input type="text" ng-model="fullName"
                tabindex="1"
                class="form-control"
+               required
                placeholder="Full Name" />
     </div>
     <div class="form-group">
-        <input type="email" ng-model="email" tabindex="2" class="form-control"
+        <input type="email"
+               ng-model="email"
+               tabindex="2"
+               class="form-control"
+               required
                placeholder="Email Address" />
     </div>
     <div class="form-group">
-        <input type="text" ng-model="username" tabindex="3" class="form-control"
+        <input type="text"
+               ng-model="username"
+               tabindex="3"
+               required
+               class="form-control"
                placeholder="Username" />
     </div>
     <div class="form-group">
         <input ng-model="password"
-               ng-minlength="6"
-               ng-maxlength="100"
+               minlength="6"
+               maxlength="100"
                type="password" tabindex="4" class="form-control"
+               id="password"
+               required
                placeholder="Password" />
     </div>
     <div class="form-group">
         <input ng-model="confirmPassword"
-               ng-minlength="6"
-               ng-maxlength="100"
+               minlength="6"
+               maxlength="100"
+               required
                type="password" tabindex="4" class="form-control"
                placeholder="Confirm Password" />
     </div>

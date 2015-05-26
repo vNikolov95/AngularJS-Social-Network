@@ -18,11 +18,22 @@
             templateUrl: 'views/searchResults.html',
             controller: 'searchResultController'
         }).when('/EditProfile', {
-            templateUrl: 'views/editProfile.html',
-            controller: 'editProfileController'
+            templateUrl: '../partials/user/editProfile.html',
+            controller: 'UsersController'
         }).when('/ChangePassword', {
-            templateUrl: 'views/changePassword.html',
-            controller: 'changePasswordController'
+            templateUrl: '../partials/user/changePassword.html',
+            controller: 'UsersController'
         }).otherwise({ redirectTo: '/' });
+    });
+
+    app.run(function ($rootScope, $location, UtilsFactory) {
+        $rootScope.$on('$locationChangeStart', function () {
+            if ($location.path().indexOf("welcome") === -1 && !UtilsFactory.isLogged()) {
+                $location.path("/");
+            }
+            if ($location.path().indexOf("welcome") !== -1 && UtilsFactory.isLogged()) {
+                $location.path("/feed");
+            }
+        });
     });
 })();
