@@ -1,0 +1,44 @@
+<div ng-controller="HomeController" ng-include="menu"></div>
+<div class="col-md-4 center-block">
+    <form ng-controller="ProfileController" class="form-horizontal" role="form" method="POST">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Profile picture</label>
+            <div class="col-md-8">
+                <img id="profilePicturePreview" src="{{userProfileModel.profileImageData}}" class="img-thumbnail thumbnail" />
+                <input ng-click="uploadProfilePicture()" id="picture" ng-model="userProfileModel.profileImageData" type="file" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Cover picture</label>
+            <div class="col-md-8">
+                <img id="coverPicturePreview" src="{{userProfileModel.coverImageData}}" class="thumbnail img-thumbnail cover-thumbnail" />
+                <input ng-click="uploadCoverPicture()" id="cover-picture" ng-model="userProfileModel.coverImageData" type="file" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-md-4 control-label">Name</label>
+            <div class="col-md-8">
+                <input type="text" name="name" class="form-control" ng-model="userProfileModel.name" id="name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-md-4 control-label">Email</label>
+            <div class="col-md-8">
+                <input type="email" name="email" class="form-control" ng-model="userProfileModel.email" id="email" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-md-4 control-label">Gender</label>
+            <div class="col-md-8">
+                <label><input type="radio" name="gender" ng-model="userProfileModel.gender" ng-value="1" /> Male </label>
+                <label><input type="radio" name="gender" ng-model="userProfileModel.gender" ng-value="2" /> Female </label>
+                <label><input type="radio" name="gender" ng-model="userProfileModel.gender" ng-value="0" /> Other </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-10">
+                <button type="submit" ng-click="editProfile($event)" class="btn btn-default">Save changes</button>
+            </div>
+        </div>
+    </form>
+</div>

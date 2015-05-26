@@ -9,29 +9,23 @@
 
     app.config(function ($routeProvider) {
         $routeProvider.when('/', {
-            templateUrl: '../partials/home.html',
+            templateUrl: '../views/home.html',
             controller: 'HomeController'
-        }).when('/FriendRequests', {
-            templateUrl: 'views/friendRequests.html',
-            controller: 'friendRequestsController'
-        }).when('/Search/:id', {
-            templateUrl: 'views/searchResults.html',
-            controller: 'searchResultController'
-        }).when('/EditProfile', {
-            templateUrl: '../partials/user/editProfile.html',
-            controller: 'UsersController'
-        }).when('/ChangePassword', {
-            templateUrl: '../partials/user/changePassword.html',
-            controller: 'UsersController'
+        }).when('/profile', {
+            templateUrl: '../views/user/editProfile.html',
+            controller: 'ProfileController'
+        }).when('/profile/password', {
+            templateUrl: '../views/user/changePassword.html',
+            controller: 'ProfileController'
         }).otherwise({ redirectTo: '/' });
     });
 
     app.run(function ($rootScope, $location, UtilsFactory) {
         $rootScope.$on('$locationChangeStart', function () {
-            if ($location.path().indexOf("welcome") === -1 && !UtilsFactory.isLogged()) {
+            if ($location.path().indexOf("home") === -1 && !UtilsFactory.isLogged()) {
                 $location.path("/");
             }
-            if ($location.path().indexOf("welcome") !== -1 && UtilsFactory.isLogged()) {
+            if ($location.path().indexOf("home") !== -1 && UtilsFactory.isLogged()) {
                 $location.path("/feed");
             }
         });
