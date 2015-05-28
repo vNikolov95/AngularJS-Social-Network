@@ -1,0 +1,32 @@
+<section class="feed-screen col-md-8" ng-controller="PostsController">
+    <h1>News feed</h1>
+    <div infinite-scroll="getNewsFeedPosts()">
+        <article class="post" ng-repeat="post in news">
+            <div class="post-title">
+                <img style="vertical-align: top" ng-src="{{post.author.profileImageData}}" class="profile-image-post">
+                <div style="display: inline-block;">
+                    <a href="javascript:;" ng-controller="ProfileController"
+                       ng-mouseover="displayHoverBox(post.author.username)"
+                       popover-template="'views/partials/hover-box.html'"
+                       popover-placement="right"
+                       popover-trigger="mouseenter"
+                       popover-animation="true">
+                        {{post.author.name}}
+                    </a>
+                    <div style="display: inline-block" ng-if="post.wallOwner.name != post.author.name">
+                        >
+                        <a href="#/users/{{post.wallOwner.username}}">
+                            {{post.wallOwner.name}}
+                        </a>
+                    </div>
+                    <span class="posted-on">{{post.date | dateTimeFilter}}</span>
+                </div>
+            </div>
+            <div class="post-content">
+                {{post.postContent}}
+            </div>
+        </article>
+        <img ng-show='busy && !noMorePosts' ng-src="../../img/spinner.gif" class="loading-bar"/>
+        <h3 ng-if="noMorePosts">No more posts to show</h3>
+    </div>
+</section>

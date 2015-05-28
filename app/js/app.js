@@ -2,12 +2,16 @@
     var app = angular.module("SocialNetwork", [
         "app.controllers",
         "app.services",
-        "ngRoute"
+        "app.directives",
+        "app.filters",
+        "ui.bootstrap",
+        "ngRoute",
+        "infinite-scroll"
     ]);
 
     app.constant('baseServiceUrl', 'http://softuni-social-network.azurewebsites.net/api');
 
-    app.config(function ($routeProvider) {
+    app.config(function ($routeProvider, $tooltipProvider) {
         $routeProvider.when('/', {
             templateUrl: '../views/home.html',
             controller: 'HomeController'
@@ -18,6 +22,13 @@
             templateUrl: '../views/user/changePassword.html',
             controller: 'ProfileController'
         }).otherwise({ redirectTo: '/' });
+
+        $tooltipProvider.setTriggers({
+            'mouseenter': 'click',
+            'click': 'click',
+            'focus': 'blur',
+            'never': 'mouseleave'
+        });
     });
 
     app.run(function ($rootScope, $location, UtilsFactory) {
@@ -29,5 +40,10 @@
                 $location.path("/feed");
             }
         });
+        $rootScope.isLogged = function() {
+            return UtilsFactory.isLogged();
+        };
     });
 })();
+
+$(document).click(function() { $('.popover').remove() });

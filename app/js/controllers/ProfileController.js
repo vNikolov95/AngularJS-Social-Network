@@ -106,6 +106,27 @@
             handleFileSelect("cover-picture", "coverPicturePreview");
         };
 
+        $scope.displayHoverBox = function(friend, $event){
+            UsersFactory.preview(friend,
+                function (data) {
+                    $scope.userPreviewData = data;
+                },
+                function (serverError) {
+                    $.notify(serverError.message, 'error');
+                });
+        };
+
+        $scope.getDataAboutMe = function () {
+            ProfileFactory.get(
+                function (serverData) {
+                    $scope.myData = serverData;
+                },
+                function (serverError) {
+                    $.notify(serverError.message, 'error');
+                });
+
+        };
+
         // Helper functions
         function handleFileSelect(inputSelector, picturePreview) {
             $('body').on('change', "#" + inputSelector, function () {
