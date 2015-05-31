@@ -21,6 +21,15 @@
         }).when('/profile/password', {
             templateUrl: '../views/user/changePassword.html',
             controller: 'ProfileController'
+        }).when('/friendRequests', {
+            templateUrl: '../views/friendRequests.html',
+            controller: 'ProfileController'
+        }).when('/users/:username', {
+            templateUrl: 'views/user.html',
+            controller: 'UsersController'
+        }).when('/users/:username/friends', {
+            templateUrl: 'views/friends.html',
+            controller: 'UsersController'
         }).otherwise({ redirectTo: '/' });
 
         $tooltipProvider.setTriggers({
@@ -32,14 +41,7 @@
     });
 
     app.run(function ($rootScope, $location, UtilsFactory) {
-        $rootScope.$on('$locationChangeStart', function () {
-            if ($location.path().indexOf("home") === -1 && !UtilsFactory.isLogged()) {
-                $location.path("/");
-            }
-            if ($location.path().indexOf("home") !== -1 && UtilsFactory.isLogged()) {
-                $location.path("/feed");
-            }
-        });
+
         $rootScope.isLogged = function() {
             return UtilsFactory.isLogged();
         };

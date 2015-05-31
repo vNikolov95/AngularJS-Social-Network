@@ -3,7 +3,7 @@
 
     var app = angular.module("app.controllers");
 
-    app.controller("ProfileController", function($scope, UsersFactory, UtilsFactory, ProfileFactory) {
+    app.controller("ProfileController", function($scope, $rootScope, UsersFactory, UtilsFactory, ProfileFactory) {
         $scope.newUserModel = {
             name: "",
             email: "",
@@ -21,12 +21,14 @@
 
         $scope.userProfileModel = {};
 
-        if(UtilsFactory.isLogged()) {
-            ProfileFactory.get(function (data) {
-                $scope.userProfileModel = data;
-            }, function (data) {
-                $.notify(data.message, 'error');
-            });
+        $scope.getData = function () {
+            if (UtilsFactory.isLogged()) {
+                ProfileFactory.get(function (data) {
+                    $scope.userProfileModel = data;
+                }, function (data) {
+                    $.notify(data.message, 'error');
+                });
+            }
         }
 
         $scope.logout = function () {
@@ -125,6 +127,40 @@
                     $.notify(serverError.message, 'error');
                 });
 
+        };
+
+        $scope.getMyFriendRequests = function () {
+            ProfileFactory.getFriendRequests(
+                function (serverData) {
+                    $scope.myRequests = serverData;
+                },
+                function (serverError) {
+                    $.notify(serverError.message, 'error');
+                });
+        };
+
+        $scope.approveFriendRequest = function (request) {
+            ProfileFactory.acceptFriendRequest(request.id,
+                function () {
+                    var index =  $scope.myRequests.indexOf(request);
+                    $scope.myRequests.splice(index,1);
+                    $.notify('Friend request approved!', 'success');
+                },
+                function (serverError) {
+                    $.notify(serverError.message, 'error');
+                });
+        };
+
+        $scope.rejectFriendRequest = function (request) {
+            ProfileFactory.rejectFriendRequest(request.id,
+                function () {
+                    var index =  $scope.myRequests.indexOf(request);
+                    $scope.myRequests.splice(index,1);
+                    $.notify('Friend request rejected!', 'success');
+                },
+                function (serverError) {
+                    $.notify(serverError.message, 'error');
+                });
         };
 
         // Helper functions

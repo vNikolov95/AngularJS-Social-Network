@@ -22,6 +22,17 @@ html {
     border-radius: 20px;
 }
 
+.comment-form {
+    padding: 5px;
+    margin: 5px;
+}
+
+.comment-settings {
+    display: inline-block;
+    float: right;
+    margin: 10px;
+}
+
 .navbar-default .navbar-nav>li>a {
     line-height: 30px;
 }
@@ -42,6 +53,7 @@ img.cover-thumbnail {
 }
 
 #search-people-form .results {
+    background-color: #ffffff;
     position: absolute;
     margin-top: 10px;
     border: 1px solid #a0a0a0;
@@ -80,18 +92,100 @@ img.cover-thumbnail {
     padding: 10px;
 }
 
-.feed-screen article .post-title img {
+.friends-preview {
+
+}
+
+.friends {
+    display: inline-block;
+    margin: 10px;
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+}
+
+.user-img-preview {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+}
+
+.post-title {
+    display: inline-block;
+}
+
+.feed-screen article .post-title > img, .feed-screen article .post-comment > img {
     width: 36px;
     height: 36px;
     border-radius: 10px;
+    vertical-align: top;
 }
 
-.feed-screen article .post-title .posted-on {
+.feed-screen article .comments {
+    margin: 15px 10px;
+}
+
+.feed-screen article .post-title .posted-on, .feed-screen article .post-comment .posted-on {
     display: block;
     font-size: 11px;
     color: #999;
 }
 
+.feed-screen article .post-comment {
+    background-color: #E4E4E4;
+    border: 1px solid;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+    padding: 5px;
+    margin-top: 10px;
+}
+
 .feed-screen article .post-content {
     padding: 10px 5px;
+}
+.feed-screen article .like-comment-btns button {
+    color: #fff;
+}
+.feed-screen article .like-comment-btns button a {
+    color: #fff;
+}
+.comment-info {
+    display: inline-block;
+}
+
+.post-settings {
+    display: inline-block;
+    float: right;
+}
+
+#user-wall > .header > #cover-photo > img {
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+#user-wall > .header {
+    color: #fff !important;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#user-wall > .user-profile-body {
+    padding: 20px 120px;
+    width: 70%;
+}
+
+#user-wall > .header > #cover-photo{
+    height: 200px;
+    overflow: hidden;
+    margin: 10px;
+    position: relative;
+}
+#user-wall > .header > #profile-photo {
+    position: absolute;
+    top: 110px;
+    left: 60px;
 }

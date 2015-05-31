@@ -10,10 +10,10 @@
         service.create = function (content, success, error) {
             $http.post(serviceUrl + '/Posts', {
                 PostContent: content,
-                Username: UtilsFactory.getUsername(),
+                Username: UtilsFactory.getUsername()
             }, {
-                headers: UtilsFactory.getHeaders(),
-            }).success(function (data, status, headers, config) {
+                headers: UtilsFactory.getHeaders()
+            }).success(function (data) {
                 success(data);
             }).error(function (data) {
                 error(data);
@@ -42,30 +42,30 @@
             });
         };
 
-        service.delete = function () {
-            $http.delete(serviceUrl + '/Posts/' + id, {
-                headers: UtilsFactory.getHeaders(),
-            }).success(function (data, status, headers, config) {
+        service.delete = function (postId, success, error) {
+            $http.delete(serviceUrl + '/Posts/' + postId, {
+                headers: UtilsFactory.getHeaders()
+            }).success(function (data) {
                 success(data);
             }).error(function (data) {
                 error(data);
             });
         };
 
-        service.like = function (id, success, error) {
-            $http.post(serviceUrl + '/Posts/' + id + '/likes', {
-                headers: UtilsFactory.getHeaders(),
-            }).success(function (data, status, headers, config) {
+        service.unlike = function (postId, success, error) {
+            $http.delete(serviceUrl + '/Posts/' + postId + '/likes', {
+                headers: UtilsFactory.getHeaders()
+            }).success(function (data) {
                 success(data);
             }).error(function (data) {
                 error(data);
             });
         };
 
-        service.getLikesPreview = function (id, success, error) {
-            $http.get(serviceUrl + '/Posts/' + id + '/likes/preview', {
-                headers: UtilsFactory.getHeaders(),
-            }).success(function (data, status, headers, config) {
+        service.like = function (postId, success, error) {
+            $http.post(serviceUrl + '/Posts/' + postId + '/likes', null, {
+                headers: UtilsFactory.getHeaders()
+            }).success(function (data) {
                 success(data);
             }).error(function (data) {
                 error(data);
@@ -74,7 +74,7 @@
 
         service.getLikes = function (id, success, error) {
             $http.get(serviceUrl + '/Posts/' + id + '/likes', {
-                headers: UtilsFactory.getHeaders(),
+                headers: UtilsFactory.getHeaders()
             }).success(function (data, status, headers, config) {
                 success(data);
             }).error(function (data) {
@@ -82,15 +82,15 @@
             });
         };
 
-    service.deleteLikes = function (id, success, error) {
-        $http.delete(serviceUrl + '/Posts/' + id + '/likes', {
-            headers: UtilsFactory.getHeaders(),
-        }).success(function (data, status, headers, config) {
-            success(data);
-        }).error(function (data) {
-            error(data);
-        });
-    };
+        service.getComments = function (postId, success, error) {
+            $http.get(serviceUrl + '/Posts/' + postId + '/comments', {
+                headers: UtilsFactory.getHeaders()
+            }).success(function (data) {
+                success(data);
+            }).error(function (data) {
+                error(data);
+            });
+        };
 
     return service;
 });
@@ -101,23 +101,23 @@
 
         service.create = function (content, postId, success, error) {
             $http.post(serviceUrl + '/posts/' + postId + '/comments', {
-                CommentContent: content,
+                CommentContent: content
             }, {
-                headers: UtilsFactory.getHeaders(),
+                headers: UtilsFactory.getHeaders()
             }).success(success).error(error);
         };
 
-        service.update = function (commentId, postId, content, success, error) {
-            $http.put(serviceUrl + '/posts/' + postId + '/comments/' + commentId, {
-                CommentContent: content,
+        service.update = function (comment, postId, success, error) {
+            $http.put(serviceUrl + '/posts/' + postId + '/comments/' + comment.id, {
+                CommentContent: comment.newCommentContent
             }, {
-                headers: UtilsFactory.getHeaders(),
+                headers: UtilsFactory.getHeaders()
             }).success(success).error(error);
         };
 
         service.delete = function (commentId, postId, success, error) {
             $http.delete(serviceUrl + '/posts/' + postId + '/comments/' + commentId, {
-                headers: UtilsFactory.getHeaders(),
+                headers: UtilsFactory.getHeaders()
             }).success(success).error(error);
         };
 
@@ -139,13 +139,13 @@
             }).success(success).error(error);
         };
 
-        service.likePostComment = function (postId, commentId, success, error) {
-            $http.post(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', {
+        service.likeComment = function (postId, commentId, success, error) {
+            $http.post(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', null, {
                 headers: UtilsFactory.getHeaders(),
             }).success(success).error(error);
         };
 
-        service.deletePostCommentLike = function (postId, commentId, success, error) {
+        service.unlikeComment = function (postId, commentId, success, error) {
             $http.delete(serviceUrl + '/posts/' + postId + '/comments/' + commentId + '/likes', {
                 headers: UtilsFactory.getHeaders(),
             }).success(success).error(error);

@@ -3,7 +3,7 @@
 
     var app = angular.module("app.services");
 
-    app.factory("UsersFactory", function ($http, UtilsFactory, baseServiceUrl) {
+    app.factory("UsersFactory", function ($http, $routeParams, UtilsFactory, baseServiceUrl) {
         var service = {};
         var serviceUrl = baseServiceUrl;
 
@@ -37,32 +37,52 @@
 
         service.get = function (username, success, error) {
             $http.get(serviceUrl + '/users/' + username, {
+                headers: UtilsFactory.getHeaders()
+            }).success(success).error(error);
+        };
+
+
+        service.getUserPosts = function (username, params, success, error) {
+            $http.get(serviceUrl + '/users/' + username + '/wall', {
+                params: params,
+                headers: UtilsFactory.getHeaders()
+            }).success(function (data) {
+                success(data);
+            }).error(function (data) {
+                error(data);
+            });
+        };
+
+        service.getUserFriendsPreview = function (username, success, error) {
+            $http.get(serviceUrl + '/users/' + username + '/friends/preview', {
                 headers: UtilsFactory.getHeaders(),
             }).success(success).error(error);
         };
 
-        service.getUserPosts = function (username, start, count, success, error) {
-            var url = serviceUrl + '/users/' + username + '/wall?PageSize=' + count;
-
-            if (start) {
-                url += '&StartPostId=' + start;
-            }
-
-            $http.get(url, {
-                headers: UtilsFactory.getHeaders(),
+        service.getMyFriends = function (success, error) {
+            $http.get(serviceUrl + '/me/friends/preview', {
+                headers: UtilsFactory.getHeaders()
             }).success(success).error(error);
         };
 
-        service.getUserFrindsPreview = function (username, success, error) {
-            $http.get(serviceUrl + '/users/' + username + 'friends/preview', {
-                headers: UtilsFactory.getHeaders(),
-            }).success(success).error(error);
+        service.getFriendsList = function (success, error) {
+            $http.get(serviceUrl + '/users/' + $routeParams.username + '/friends',
+                { headers: UtilsFactory.getHeaders()})
+                .success(function (data) {
+                    success(data);
+                }).error(function(data) {
+                    error(data);
+                });
         };
 
-        service.getUserFrinds = function (username, success, error) {
-            $http.get(serviceUrl + '/users/' + username + 'friends', {
-                headers: UtilsFactory.getHeaders(),
-            }).success(success).error(error);
+        service.getOwnFriendsList = function (success,error) {
+            $http.get(serviceUrl + '/me/friends',
+                {headers: UtilsFactory.getHeaders()})
+                .success(function (data) {
+                    success(data);
+                }).error(function(data) {
+                    error(data);
+                });
         };
 
         return service;

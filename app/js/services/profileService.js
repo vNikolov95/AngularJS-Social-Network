@@ -65,7 +65,7 @@
             $http.get(serviceUrl + '/me/feed', {
                 params: params,
                 headers: UtilsFactory.getHeaders()
-            }).success(function (data, status, headers, config) {
+            }).success(function (data) {
                 success(data);
             }).error(function (data) {
                 error(data);
@@ -81,14 +81,10 @@
                 });
         };
 
-        service.sendFriendRequest = function (success, error) {
-            $http.post(serviceUrl + '/me/requests/' + UtilsFactory.getUsername(), {
+        service.sendFriendRequest = function (username, success, error) {
+            $http.post(serviceUrl + '/me/requests/' + username, null, {
                 headers: UtilsFactory.getHeaders()
-            }).success(function (data, status, headers, config) {
-                success(data);
-            }).error(function (data) {
-                error(data);
-            });
+            }).success(success).error(error);
         };
 
         service.acceptFriendRequest = function (id, success, error) {

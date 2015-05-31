@@ -1,0 +1,143 @@
+<div id="user-wall" ng ng-controller="UsersController" ng-init="getUserData()">
+    <div class="header">
+        <div id="cover-photo">
+            <img ng-src="{{userData.coverImageData}}"/>
+        </div>
+        <div ng-init="getDataAboutMe()" id="profile-photo">
+            <img style="display: inline-block; margin-bottom: 0;" class="thumbnail" ng-src="{{userData.profileImageData}}"/>
+            <div id="name" style="display: inline-block; vertical-align: bottom">
+                <h2>{{userData.name}}</h2>
+                <button ng-if="!userData.isFriend && !userData.hasPendingRequest && userData.username != myData.username"
+                        ng-click="sendFriendRequest()" class="btn btn-default">Send friend request
+                </button>
+                <button ng-if="!userData.isFriend && userData.hasPendingRequest && userData.username != myData.username" disabled
+                        class="btn btn-default">Friend request pending
+                </button>
+                <button ng-if="userData.isFriend && userData.username != myData.username" disabled class="btn btn-default">Friend
+                </button>
+            </div>
+        </div>
+    </div>
+    <div ng-init="getDataAboutMe()" class="user-profile-body col-md-8">
+        <form ng-if="userData.isFriend || userData.username == myData.username" ng-submit="submitPost()" ng-controller="PostsController">
+            <h3>Post on wall</h3>
+            <textarea ng-model="newPost" class="form-control"></textarea><br />
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+        <section class="feed-screen" ng-controller="PostsController">
+            <h1>Posts</h1>
+            <div infinite-scroll="getUserPosts()">
+                <article class="post" ng-repeat="post in news">
+                    <div class="post-title">
+                        <img style="vertical-align: top" ng-src="{{post.author.profileImageData}}" class="profile-image-post">
+                        <div style="display: inline-block;">
+                            <a href="javascript:;" ng-controller="ProfileController"
+                               ng-mouseover="displayHoverBox(post.author.username)"
+                               popover-template="'views/partials/hover-box.html'"
+                               popover-placement="right"
+                               popover-trigger="mouseenter"
+                               popover-animation="true">
+                                {{post.author.name}}
+                            </a>
+                            <div style="display: inline-block" ng-if="post.wallOwner.name != post.author.name">
+                                >
+                                <a href="#/users/{{post.wallOwner.username}}" ng-controller="ProfileController"
+                                   ng-mouseover="displayHoverBox(post.wallOwner.username)"
+                                   popover-template="'views/partials/hover-box.html'"
+                                   popover-placement="right"
+                                   popover-trigger="mouseenter"
+                                   popover-animation="true">
+                                    {{post.wallOwner.name}}
+                                </a>
+                            </div>
+                            <span class="posted-on">{{post.date | dateTimeFilter}}</span>
+                        </div>
+                    </div>
+                    <div class="post-settings">
+                        <button class="btn btn-sm btn-default" ng-if="post.author.username === myData.username" ng-click="post.editing = !post.editing; post.newPostContent = post.postContent">
+                            <span class="glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-sm btn-danger"
+                                ng-if="post.author.username === myData.username || post.wallOwner.username === myData.username"
+                                ng-click="deletePost(post)"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                        <hr>
+                    </div>
+                    <div ng-if="post.editing">
+                        <textarea rows="2" cols="45" class="form-control"
+                                  ng-model="post.newPostContent">{{post.postContent}}</textarea>
+                        <button class="btn btn-default" ng-click="editPost(post)">Edit</button>
+                    </div>
+
+                    <p ng-show="!post.editing" class="post-content">{{post.postContent}}</p>
+                    <div class="like-comment-btns">
+                        <button ng-if="!post.liked" ng-click="likePost(post)" class="btn btn-sm btn-info">
+                            <span><a href="javascript:;">{{post.likesCount}}</a></span>
+                            Like
+                        </button>
+                        <button ng-if="post.liked" ng-click="unlikePost(post)" class="btn btn-sm btn-primary">
+                            <span><a href="javascript:;">{{post.likesCount}}</a></span>
+                            Unlike
+                        </button>
+                        <button ng-click="status.open = !status.open" class="btn btn-default btn-sm btn-primary">
+                            <span><a href="">{{post.totalCommentsCount}}</a></span>
+                            <span class="glyphicon glyphicon-comment"></span>
+                        </button>
+                    </div>
+
+                    <div ng-include="'views/partials/addComment.html'" ng-if="status.open"></div>
+                    <div class="comments">
+                        <div class="post-comment" ng-repeat="comment in post.comments">
+                            <img ng-src="{{comment.author.profileImageData}}" class="profile-image-post">
+                            <div class="comment-info">
+                                <a href="#/users/{{comment.author.username}}" ng-controller="ProfileController"
+                                   ng-mouseover="displayHoverBox(comment.author.username)"
+                                   popover-template="'views/partials/hover-box.html'"
+                                   popover-placement="right"
+                                   popover-trigger="mouseenter"
+                                   popover-animation="true">
+                                    {{comment.author.name}}</a>
+
+                                <p>{{comment.date | dateTimeFilter}}</p>
+                            </div>
+                            <div class="comment-settings" ng-controller="ProfileController" ng-init="getDataAboutMe()">
+                                <button ng-if="!comment.liked" ng-click="likeComment(comment, post)" class="btn btn-sm btn-info">
+                                    <span>{{comment.likesCount}}</span>
+                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                </button>
+
+                                <button ng-if="comment.liked" ng-click="unlikeComment(comment, post)" class="btn btn-sm btn-primary">
+                                    <span>{{comment.likesCount}}</span>
+                                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                                </button>
+
+                                <button class="btn btn-sm btn-default" ng-if="comment.author.username === myData.username" ng-click="comment.editing = !comment.editing; comment.newCommentContent = comment.commentContent">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+
+                                <button class="btn btn-sm btn-danger"
+                                        ng-if="comment.author.username === myData.username"
+                                        ng-click="deleteComment(post, comment)"><span
+                                        class="glyphicon glyphicon-remove-sign"></span>
+                                </button>
+                            </div>
+                            <div ng-if="comment.editing">
+                                <textarea rows="2" cols="40" ng-model="comment.newCommentContent">{{comment.commentContent}}</textarea><br />
+                                <button class="btn btn-default" ng-click="editComment(comment,post.id)">Edit</button>
+                            </div>
+
+                            <p ng-show="!comment.editing" class="content">{{comment.commentContent}}</p>
+                        </div>
+                    </div>
+                    <a href="javascript:;" ng-if="!showAll[post.id] && post.totalCommentsCount>3" ng-click="allCommentsClicked(post)"
+                       class="right">View all comments...</a>
+
+                    <a href="" ng-if="showAll[post.id] && post.totalCommentsCount>3" ng-click="hideCommentsClicked(post)"
+                       class="right">Hide comments...</a>
+                </article>
+                <img ng-show='busy && !noMorePosts' ng-src="../../img/spinner.gif" class="loading-bar"/>
+                <h3 ng-if="noMorePosts">No more posts to show</h3>
+            </div>
+        </section>
+    </div>
+    <aside ng-if="userData.username === myData.username"  class="col-md-3" ng-controller="UsersController" ng-init="getMyFriendsPreview()" ng-include="'views/partials/friendsPreview.html'"></aside>
+    <aside ng-if="userData.username !== myData.username && userData.isFriend"  class="col-md-3" ng-controller="UsersController" ng-init="getFriendsPreview()" ng-include="'views/partials/friendsPreview.html'"></aside>
+</div>

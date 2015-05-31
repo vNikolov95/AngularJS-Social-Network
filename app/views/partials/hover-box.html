@@ -3,8 +3,8 @@
 </div>
 <div class="hover-profile-info">
     <p class="hover-profile-name"><a href="#/users/{{userPreviewData.username}}">{{userPreviewData.name}}</a></p>
-    <p><strong>Gender:</strong> {{userPreviewData.gender}}</p>
-    <button ng-if="!userPreviewData.isFriend && !userPreviewData.hasPendingRequest && userPreviewData.username != myData.username" ng-click="sendFriendRequest()" class="btn btn-default">Send friend request</button>
+    <p><strong>Gender:</strong> {{userPreviewData.gender | genderFilter}}</p>
+    <button ng-controller="UsersController" ng-if="!userPreviewData.isFriend && !userPreviewData.hasPendingRequest && userPreviewData.username != myData.username" ng-click="sendFriendRequest(userPreviewData.username)" class="btn btn-default">Send friend request</button>
     <button ng-if="!userPreviewData.isFriend && userPreviewData.hasPendingRequest && userPreviewData.username != myData.username" disabled class="btn btn-default">Friend request pending</button>
     <button ng-if="userPreviewData.isFriend && userPreviewData.username != myData.username" disabled class="btn btn-default">Friend</button>
 </div>

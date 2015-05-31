@@ -1,7 +1,9 @@
-<nav ng-controller="ProfileController" class="navbar navbar-default">
+<nav ng-controller="ProfileController" ng-init="getData()" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <ul class="nav navbar-nav navbar-left">
-            <li><a href="#/"><img ng-src="{{userProfileModel.profileImageData}}" class="profile-image" /> <span>{{ userProfileModel.name }}</span></a></li>
+            <li><a href="#/users/{{userProfileModel.username}}"><img ng-src="{{userProfileModel.profileImageData}}" class="profile-image" /> <span>{{ userProfileModel.name }}</span></a></li>
+            <li><a href="#/" class="hvr-underline-reveal"><span class="glyphicon glyphicon-list-alt"></span></a></li>
+            <li><a href="#/friendRequests" class="hvr-underline-reveal"><span class="glyphicon glyphicon-user"></span><span ng-if="myRequests.length != 0">{{myRequests.length}}</span></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -19,13 +21,15 @@
         </ul>
         <form ng-controller="UsersController" id="search-people-form" class="navbar-form navbar-right" role="search">
             <div class="form-group">
-                <input ng-model="search" ng-keyup="searchUsersByName(search);" ng-focus="showResults($event);" ng-blur="hideResults($event);" type="text" class="form-control" placeholder="Search people">
+                <input ng-model="search" ng-keyup="searchUsersByName(search);" ng-focus="showResults($event);" type="text" class="form-control" placeholder="Search people">
             </div>
-            <div ng-show="menuOpened" class="results">
+            <div ng-show="search.length > 0" class="results">
                 <span ng-show="noResults">No results</span>
                 <div class="user-result" ng-repeat="user in foundUsers">
-                    <img src="{{user.profileImageData}}" width="40px" height="40px" />
-                    <span>{{user.name}}</span>
+                    <a ng-click="hideResults(user.username);">
+                        <img src="{{user.profileImageData}}" width="40px" height="40px" />
+                        <span>{{user.name}}</span>
+                    </a>
                 </div>
             </div>
         </form>

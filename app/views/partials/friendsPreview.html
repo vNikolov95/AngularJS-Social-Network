@@ -1,0 +1,9 @@
+<aside class="friends-preview" >
+    <h4 onload="getUserData()">
+        <a href="#/users/{{userData.username}}/friends">Friends - {{friendsPreview.totalCount}} total</a>
+    </h4>
+    <div ng-repeat="friend in friendsPreview.friends">
+        <img ng-src="{{friend.profileImageData}}" class="user-img-preview">
+        <a href="#/users/{{friend.username}}">{{friend.name}}</a>
+    </div>
+</aside>

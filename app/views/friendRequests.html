@@ -1,0 +1,12 @@
+<section ng-controller="ProfileController" ng-init="getMyFriendRequests()" class="friend-requests-section">
+    <div>
+        <h2>Friend requests</h2>
+    </div>
+    <article ng-repeat="request in myRequests">
+        <img ng-src="{{request.user.profileImageData}}">
+        <h4>{{request.user.name}} (<a href="#/users/{{request.user.username}}">{{request.user.username}}</a>)</h4>
+        <p>Gender: {{request.user.gender | genderFilter}}</p>
+        <button id="accept-btn" type="submit" class="btn btn-md btn-success" ng-click="approveFriendRequest(request)">Accept</button>
+        <button id="reject-btn" type="submit" class="btn btn-md btn-danger" ng-click="rejectFriendRequest(request)">Reject</button>
+    </article>
+</section>
