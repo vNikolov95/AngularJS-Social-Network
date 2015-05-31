@@ -19,7 +19,7 @@
                 }, function (data) {
                 });
             },
-            templateUrl: '../views/directives/menu.html'
+            templateUrl: 'views/directives/menu.html'
         }
     });
 }());

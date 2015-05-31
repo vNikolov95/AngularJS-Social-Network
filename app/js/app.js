@@ -13,16 +13,16 @@
 
     app.config(function ($routeProvider, $tooltipProvider) {
         $routeProvider.when('/', {
-            templateUrl: '../views/home.html',
+            templateUrl: 'views/home.html',
             controller: 'HomeController'
         }).when('/profile', {
-            templateUrl: '../views/user/editProfile.html',
+            templateUrl: 'views/user/editProfile.html',
             controller: 'ProfileController'
         }).when('/profile/password', {
-            templateUrl: '../views/user/changePassword.html',
+            templateUrl: 'views/user/changePassword.html',
             controller: 'ProfileController'
         }).when('/friendRequests', {
-            templateUrl: '../views/friendRequests.html',
+            templateUrl: 'views/friendRequests.html',
             controller: 'ProfileController'
         }).when('/users/:username', {
             templateUrl: 'views/user.html',
